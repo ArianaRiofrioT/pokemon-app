@@ -1,8 +1,9 @@
 # Práctica 02: Aplicación Web Interactiva con Angular y PokéAPI
+
 **Universidad Politécnica Salesiana**
 **Asignatura:** Programación y Plataformas Web  
 **Estudiante:** Ariana Riofrío  
-Universidad Politécnica Salesiana  
+
 
 ---
 
