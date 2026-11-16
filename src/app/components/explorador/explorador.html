@@ -1,0 +1,44 @@
+<section style="padding: 20px;">
+  <h2>Explorador y Analizador Táctico PokéAPI</h2>
+  
+  <form (submit)="$event.preventDefault(); buscar(busquedaInput.value)">
+    <label for="input-busq">Pokémon (Nombre o ID): </label>
+    <input id="input-busq" #busquedaInput type="text" placeholder="ej. pikachu, 25">
+    <button type="submit" [disabled]="cargando()">Consultar</button>
+  </form>
+
+  @if (cargando()) {
+    <p role="status">Consultando los tres endpoints de PokéAPI...</p>
+  }
+
+  @if (error()) {
+    <p role="alert" style="color: red;">{{ error() }}</p>
+  }
+
+  @if (pokemon(); as p) {
+    <article style="border: 1px solid #ccc; padding: 15px; margin-top: 15px; border-radius: 8px; max-width: 500px;">
+      <h3>{{ p.nombre | titlecase }} (ID: {{ p.id }})</h3>
+      @if (p.imagen) {
+        <img [src]="p.imagen" [alt]="p.nombre">
+      }
+      <p><strong>Tipos:</strong> {{ p.tipos.join(', ') }}</p>
+      <p><strong>HP:</strong> {{ p.hp }} | <strong>Ataque:</strong> {{ p.ataque }}</p>
+
+      @if (tipoInfo(); as t) {
+        <div style="background: #f4f4f4; padding: 10px; margin-top: 10px; border-radius: 5px;">
+          <h4>Endpoint 2: Relación de Tipos ({{ t.name }})</h4>
+          <p><strong>Débil a el doble de daño de:</strong> 
+            {{ t.damageRelations.doubleDamageFrom.map(d => d.name).join(', ') || 'Ninguno' }}
+          </p>
+        </div>
+      }
+
+      @if (movimientoInfo(); as m) {
+        <div style="background: #eef9ff; padding: 10px; margin-top: 10px; border-radius: 5px;">
+          <h4>Endpoint 3: Movimiento Analizado ({{ m.name }})</h4>
+          <p>Poder: {{ m.power ?? 'N/A' }} | Precisión: {{ m.accuracy ?? 'N/A' }} | Tipo: {{ m.type.name }}</p>
+        </div>
+      }
+    </article>
+  }
+</section>
